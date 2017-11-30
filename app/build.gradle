@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+
+
+// Build time
+// anio week hour min ss
+def BUILD_DATE_TIME = new Date().format("yywwuHHmm").toInteger()
+logger.lifecycle("Using Buildtime: ${BUILD_DATE_TIME}")
+
+// Version name
+//http://dinosaurioss.com/nombres-de-dinosaurios/
+//Ceratosaurus, Sarcosaurus, Barosaurus
+def VERSION_NAME = "Ceratosaurus"
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "cl.ucn.disc.dam.cenve"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode BUILD_DATE_TIME
+        versionName "${VERSION_NAME} ${BUILD_DATE_TIME}"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    // Siempre mostrar los resultados de cada test unitario
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+    buildTypes {
+        release {
+            postprocessing {
+                crunchPngs true
+                removeUnusedCode true
+                removeUnusedResources true
+                obfuscate true
+                optimizeCode true
+                zipAlignEnabled true
+            }
+        }
+        debug {
+            postprocessing {
+                crunchPngs false
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                zipAlignEnabled false
+            }
+            versionNameSuffix "-debug"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // File output name
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "cenve-${variant.versionCode}-${variant.name}.apk"
+        }
+    }
+    dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+        testImplementation 'junit:junit:4.12'
+        androidTestImplementation 'com.android.support.test:runner:1.0.1'
+        androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+        testAnnotationProcessor 'org.projectlombok:lombok:1.16.18'
+        testImplementation 'org.projectlombok:lombok:1.16.18'
+
+        // Lombok Android
+        annotationProcessor 'org.projectlombok:lombok:1.16.18'
+        compileOnly 'org.projectlombok:lombok:1.16.18'
+    }
+
+
+}
