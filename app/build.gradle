@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 
-
 // Build time
 // anio week hour min ss
 def BUILD_DATE_TIME = new Date().format("yywwuHHmm").toInteger()
@@ -85,4 +84,11 @@ android {
     }
 
 
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    // Design Support Library
+    implementation 'com.android.support:design:27.0.2'
 }

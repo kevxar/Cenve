@@ -21,7 +21,7 @@ public class Vehiculo {
     /**
      * Esquema de la base de datos para Vehiculo
      */
-    public static final String PLACA = "_placa";
+    public static final String PATENTE = "_patente";
     public static final String MARCA = "marca";
     public static final String COLOR = "color";
     public static final String MODELO = "modelo";
@@ -32,12 +32,12 @@ public class Vehiculo {
 
 
     /**
-     * placa del Vehiculo
+     * patente del Vehiculo
      */
     @Setter
     @Getter
-    @DatabaseField(generatedId = true, columnName = PLACA)
-    private String placa;
+    @DatabaseField(generatedId = true, columnName = PATENTE)
+    private String patente;
 
     /**
      * marca del Vehiculo
