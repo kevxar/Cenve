@@ -74,6 +74,14 @@ android {
         // Lombok Android
         annotationProcessor 'org.projectlombok:lombok:1.16.18'
         compileOnly 'org.projectlombok:lombok:1.16.18'
+
+        // ORMLite Core
+        implementation 'com.j256.ormlite:ormlite-core:5.0'
+
+        // ORMLite Android
+        implementation 'com.j256.ormlite:ormlite-android:5.0'
+
+
     }
 
 
