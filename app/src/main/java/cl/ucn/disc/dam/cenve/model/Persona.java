@@ -19,7 +19,10 @@ import com.j256.ormlite.table.DatabaseTable;
 @Builder
 public class Persona {
 
-    public static final String RUT = "rut";
+    /**
+     * Esquema de la base de datos para Persona
+     */
+    public static final String RUT = "_rut";
     public static final String NOMBRE = "nombre";
     public static final String CORREO = "correo";
     public static final String TELEFONO = "telefono";
