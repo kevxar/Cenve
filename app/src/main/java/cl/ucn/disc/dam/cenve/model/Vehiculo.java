@@ -27,4 +27,7 @@ public class Vehiculo {
     String anio;
     @Getter
     String descripcion;
+
+    @Getter
+    int codigoEstacionamiento;
 }
