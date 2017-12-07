@@ -75,11 +75,12 @@ android {
         annotationProcessor 'org.projectlombok:lombok:1.16.18'
         compileOnly 'org.projectlombok:lombok:1.16.18'
 
-        // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-core
-        compile group: 'com.j256.ormlite', name: 'ormlite-core', version: '5.0'
+        // ORMLite Core
+        implementation 'com.j256.ormlite:ormlite-core:5.0'
 
-        // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-android
-        compile group: 'com.j256.ormlite', name: 'ormlite-android', version: '5.0'
+        // ORMLite Android
+        implementation 'com.j256.ormlite:ormlite-android:5.0'
+
 
     }
 

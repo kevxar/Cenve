@@ -13,18 +13,45 @@ import lombok.Getter;
 @Builder
 public class Vehiculo {
 
+    /**
+     * dueño o responsable del Vehiculo
+     */
     @Getter
     Persona dueño;
+
+    /**
+     * placa del Vehiculo
+     */
     @Getter
     String placa;
+
+    /**
+     * marca del Vehiculo
+     */
     @Getter
     String marca;
+
+    /**
+     * color del Vehiculo
+     */
     @Getter
     String color;
+
+    /**
+     * modelo del Vehiculo
+     */
     @Getter
     String modelo;
+
+    /**
+     * anio del Vehiculo
+     */
     @Getter
     String anio;
+
+    /**
+     * descripcion del responsable del Vehiculo
+     */
     @Getter
     String descripcion;
 
