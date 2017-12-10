@@ -81,6 +81,7 @@ android {
         implementation 'com.j256.ormlite:ormlite-android:5.0'
 
 
+
     }
 
 
@@ -91,4 +92,6 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.0.2'
     // Design Support Library
     implementation 'com.android.support:design:27.0.2'
+
+
 }
