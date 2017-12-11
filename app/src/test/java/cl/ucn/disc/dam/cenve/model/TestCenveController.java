@@ -1,7 +1,7 @@
 package cl.ucn.disc.dam.cenve.model;
 
 /**
- * Created by kevxa on 30-11-2017.
+ * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 
 public class TestCenveController {

@@ -16,7 +16,7 @@ import lombok.NonNull;
  * Representa la tarea de obtener los registros
  * de forma asincronica
  *
- * @author Kevin Araya Reygada
+ * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 
 public class GetRegisterTask  extends AsyncTask<Void, Void, Integer> {

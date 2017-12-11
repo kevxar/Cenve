@@ -5,6 +5,10 @@ import android.os.Bundle;
 
 import cl.ucn.disc.dam.cenve.R;
 
+/**
+ * @author Kevin Araya Reygada, Jean Cortes Taiba
+ */
+
 public class PatentesActivity extends Activity {
 
     @Override

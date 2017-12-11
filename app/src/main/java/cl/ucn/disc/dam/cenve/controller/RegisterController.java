@@ -8,7 +8,7 @@ import cl.ucn.disc.dam.cenve.model.Registro;
 /**
  * Representa el controlador de los registros
  *
- * @author Kevin Araya Reygada
+ * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 
 public class RegisterController {

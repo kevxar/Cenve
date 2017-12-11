@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Actividad principal: se muestra una lista de registros de vehiculos
  * que se obtienen a traves de la base de datos.
- * @author Kevin Araya Reygada
+ * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 @Slf4j
 public class MainActivity extends ListActivity {

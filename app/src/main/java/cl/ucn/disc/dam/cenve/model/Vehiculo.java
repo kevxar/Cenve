@@ -11,7 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Representa un vehiculo a ingresar
  * para el sistema de control vehicular
  *
- * @author Kevin Araya Reygada
+ * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 
 @DatabaseTable

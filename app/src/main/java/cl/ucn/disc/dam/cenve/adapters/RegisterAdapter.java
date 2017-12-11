@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Representa el adaptador de los registros
  *
- * @author Kevin Araya Reygada
+ * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 
 @Slf4j
