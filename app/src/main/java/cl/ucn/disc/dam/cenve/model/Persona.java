@@ -22,21 +22,46 @@ public class Persona {
     /**
      * Esquema de la base de datos para Persona
      */
-    public static final String RUT = "_rut";
+    /**public static final String ID = "_id";
+    public static final String RUT = "rut";
     public static final String NOMBRE = "nombre";
     public static final String CORREO = "correo";
     public static final String TELEFONO = "telefono";
     public static final String NUMERO_ANEXO = "numero_Anexo";
     public static final String LOCALIZACION = "localizacion";
     public static final String TIPO = "tipo";
-    public static final String CARGO = "cargo";
+    public static final String CARGO = "cargo";**/
+
+    public Persona() {
+    }
+
+    public Persona(String rut, String nombre, String correo, int telefono, int numeroAnexo,
+                   String localizacion, String tipo, String cargo) {
+        super();
+        this.rut = rut;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.numeroAnexo = numeroAnexo;
+        this.localizacion = localizacion;
+        this.tipo = tipo;
+        this.cargo = cargo;
+    }
+
+    /**
+     * id de la Persona
+     */
+    @Setter
+    @Getter
+    @DatabaseField(generatedId = true)
+    private int id;
 
     /**
      * rut de la Persona
      */
     @Setter
     @Getter
-    @DatabaseField(generatedId = true, columnName = RUT)
+    @DatabaseField
     private String rut;
 
     /**
@@ -44,7 +69,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = NOMBRE)
+    @DatabaseField
     private String nombre;
 
     /**
@@ -52,7 +77,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = CORREO)
+    @DatabaseField
     private String correo;
 
     /**
@@ -60,7 +85,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = TELEFONO)
+    @DatabaseField
     private int telefono;
 
     /**
@@ -68,7 +93,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = NUMERO_ANEXO)
+    @DatabaseField
     private int numeroAnexo;
 
     /**
@@ -76,7 +101,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = LOCALIZACION)
+    @DatabaseField
     private String localizacion;
 
     /**
@@ -84,7 +109,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = TIPO)
+    @DatabaseField
     private String tipo;
 
     /**
@@ -92,6 +117,6 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = CARGO)
+    @DatabaseField
     private String cargo;
 }

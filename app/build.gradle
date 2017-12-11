@@ -80,6 +80,9 @@ android {
         // ORMLite Android
         implementation 'com.j256.ormlite:ormlite-android:5.0'
 
+        // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+
 
     }
 
