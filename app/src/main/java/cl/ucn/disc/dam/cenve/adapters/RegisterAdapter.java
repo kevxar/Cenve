@@ -102,7 +102,7 @@ public class RegisterAdapter extends BaseAdapter{
         final View view;
 
         if (convertView == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.activity_patentes, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.list_register, parent, false);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         } else {
