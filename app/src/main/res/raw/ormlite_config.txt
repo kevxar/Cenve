@@ -1,0 +1,116 @@
+#
+# generated on 2017/12/14 06:03:41
+#
+# --table-start--
+dataClass=cl.ucn.disc.dam.cenve.model.Persona
+tableName=persona
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=rut
+columnName=persona_id
+# --field-end--
+# --field-start--
+fieldName=nombre
+columnName=persona_id
+# --field-end--
+# --field-start--
+fieldName=correo
+columnName=persona_id
+# --field-end--
+# --field-start--
+fieldName=telefono
+columnName=persona_id
+# --field-end--
+# --field-start--
+fieldName=numeroAnexo
+columnName=persona_id
+# --field-end--
+# --field-start--
+fieldName=localizacion
+columnName=persona_id
+# --field-end--
+# --field-start--
+fieldName=tipo
+columnName=persona_id
+# --field-end--
+# --field-start--
+fieldName=cargo
+columnName=persona_id
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=cl.ucn.disc.dam.cenve.model.Registro
+tableName=registro
+# --table-fields-start--
+# --field-start--
+fieldName=id
+columnName=registro_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=porteria
+columnName=porteria
+# --field-end--
+# --field-start--
+fieldName=fechaIngreso
+columnName=fechaIngreso
+# --field-end--
+# --field-start--
+fieldName=vehiculo
+columnName=vehiculo
+foreign=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=cl.ucn.disc.dam.cenve.model.Vehiculo
+tableName=vehiculo
+# --table-fields-start--
+# --field-start--
+fieldName=id
+columnName=vehiculo_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=patente
+columnName=patente
+# --field-end--
+# --field-start--
+fieldName=marca
+columnName=marca
+# --field-end--
+# --field-start--
+fieldName=color
+columnName=color
+# --field-end--
+# --field-start--
+fieldName=modelo
+columnName=modelo
+# --field-end--
+# --field-start--
+fieldName=anio
+columnName=anio
+# --field-end--
+# --field-start--
+fieldName=descripcion
+columnName=descripcion
+# --field-end--
+# --field-start--
+fieldName=codigoEstacionamiento
+columnName=codigo_estacionamiento
+# --field-end--
+# --field-start--
+fieldName=persona
+columnName=persona
+foreign=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

@@ -4,11 +4,17 @@ package cl.ucn.disc.dam.cenve.tasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import cl.ucn.disc.dam.cenve.activities.MainActivity;
 
 import cl.ucn.disc.dam.cenve.adapters.RegisterAdapter;
 import cl.ucn.disc.dam.cenve.controller.RegisterController;
+import cl.ucn.disc.dam.cenve.model.DBHelper;
 import cl.ucn.disc.dam.cenve.model.Registro;
 import lombok.NonNull;
 
@@ -25,6 +31,11 @@ public class GetRegisterTask  extends AsyncTask<Void, Void, Integer> {
      *Listener de las tareas a terminar
      */
     private TaskListener taskListener;
+
+    private DBHelper helper;
+    private Dao dao;
+
+
 
     public GetRegisterTask(TaskListener taskListener) {
         this.taskListener = taskListener;
@@ -81,6 +92,8 @@ public class GetRegisterTask  extends AsyncTask<Void, Void, Integer> {
      * @return the {@link List} of {@link Registro}.
      */
     private List<Registro> getRegistros() {
+
+        //dao = helper.getRegistroDao();
 
         // FIXME: Sera atributo de la clase?
         final RegisterController registerController = new RegisterController();

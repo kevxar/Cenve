@@ -16,20 +16,29 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 
-@Builder
 @DatabaseTable
 public class Registro {
 
     /**
      * Esquema de la base de datos para Registro
      */
-    public static final String ID = "_id";
+    public static final String ID = "registro_id";
     public static final String PORTERIA = "porteria";
     public static final String FECHA_INGRESO = "fechaIngreso";
     public static final String VEHICULO = "vehiculo";
 
+    public Registro() {
+
+    }
+
+    public Registro(String porteria, Date fechaIngreso, Vehiculo vehiculo) {
+        this.porteria = porteria;
+        this.fechaIngreso = fechaIngreso;
+        this.vehiculo = vehiculo;
+    }
+
     /**
-     * ID de cada registro
+     * id de cada registro
      */
     @Getter
     @Setter

@@ -16,13 +16,12 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable
-@Builder
 public class Persona {
 
     /**
      * Esquema de la base de datos para Persona
      */
-    /**public static final String ID = "_id";
+    public static final String ID = "persona_id";
     public static final String RUT = "rut";
     public static final String NOMBRE = "nombre";
     public static final String CORREO = "correo";
@@ -30,9 +29,10 @@ public class Persona {
     public static final String NUMERO_ANEXO = "numero_Anexo";
     public static final String LOCALIZACION = "localizacion";
     public static final String TIPO = "tipo";
-    public static final String CARGO = "cargo";**/
+    public static final String CARGO = "cargo";
 
     public Persona() {
+
     }
 
     public Persona(String rut, String nombre, String correo, int telefono, int numeroAnexo,
@@ -61,7 +61,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField
+    @DatabaseField(columnName = ID)
     private String rut;
 
     /**
@@ -69,7 +69,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField
+    @DatabaseField(columnName = ID)
     private String nombre;
 
     /**
@@ -77,7 +77,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField
+    @DatabaseField(columnName = ID)
     private String correo;
 
     /**
@@ -85,7 +85,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField
+    @DatabaseField(columnName = ID)
     private int telefono;
 
     /**
@@ -93,7 +93,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField
+    @DatabaseField(columnName = ID)
     private int numeroAnexo;
 
     /**
@@ -101,7 +101,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField
+    @DatabaseField(columnName = ID)
     private String localizacion;
 
     /**
@@ -109,7 +109,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField
+    @DatabaseField(columnName = ID)
     private String tipo;
 
     /**
@@ -117,6 +117,6 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField
+    @DatabaseField(columnName = ID)
     private String cargo;
 }

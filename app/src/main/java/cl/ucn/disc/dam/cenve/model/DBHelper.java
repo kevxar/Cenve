@@ -5,12 +5,15 @@ import java.util.List;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+
+import cl.ucn.disc.dam.cenve.R;
 
 /**
  * @author Kevin Araya Reygada, Jean Cortes Taiba
@@ -21,37 +24,41 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "cenve.db";
     private static final int DATABASE_VERSION = 1;
 
-    private Dao<Persona, Integer> personaDao = null;
-    private Dao<Registro, Integer> registroDao = null;
-    private Dao<Vehiculo, Integer> vehiculoDao = null;
-    private RuntimeExceptionDao<Persona, Integer> personaIntegerRuntimeExceptionDao = null;
-    private RuntimeExceptionDao<Registro, Integer> registroIntegerRuntimeExceptionDao = null;
-    private RuntimeExceptionDao<Vehiculo, Integer> vehiculoIntegerRuntimeExceptionDao = null;
+    private Dao<Persona, Integer> personaDao;
+    private Dao<Registro, Integer> registroDao;
+    private Dao<Vehiculo, Integer> vehiculoDao;
+//    private RuntimeExceptionDao<Persona, Integer> personaIntegerRuntimeExceptionDao = null;
+//    private RuntimeExceptionDao<Registro, Integer> registroIntegerRuntimeExceptionDao = null;
+//    private RuntimeExceptionDao<Vehiculo, Integer> vehiculoIntegerRuntimeExceptionDao = null;
 
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-}
+        super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
+    }
 
     @Override
-    public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
+    public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
+
             TableUtils.createTable(connectionSource, Persona.class);
             TableUtils.createTable(connectionSource, Registro.class);
             TableUtils.createTable(connectionSource, Vehiculo.class);
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Log.e(DBHelper.class.getName(), "No se pudieron crear las tablas");
         }
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try{
+
             TableUtils.dropTable(connectionSource, Persona.class, true);
             TableUtils.dropTable(connectionSource, Registro.class, true);
             TableUtils.dropTable(connectionSource, Vehiculo.class, true);
-            onCreate(db, connectionSource);
+            onCreate(sqLiteDatabase, connectionSource);
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.e(DBHelper.class.getName(), "Unable to upgrade database from version " + oldVersion + " to new " + newVersion, e);
         }
     }
 
@@ -74,27 +81,6 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
             vehiculoDao = getDao(Vehiculo.class);
         }
         return vehiculoDao;
-    }
-
-    public RuntimeExceptionDao<Persona, Integer> getPersonaIntegerRuntimeExceptionDao(){
-        if (personaIntegerRuntimeExceptionDao == null) {
-            personaIntegerRuntimeExceptionDao = getRuntimeExceptionDao(Persona.class);
-        }
-        return personaIntegerRuntimeExceptionDao;
-    }
-
-    public RuntimeExceptionDao<Registro, Integer> getRegistroIntegerRuntimeExceptionDao(){
-        if (registroIntegerRuntimeExceptionDao == null) {
-            registroIntegerRuntimeExceptionDao = getRuntimeExceptionDao(Registro.class);
-        }
-        return registroIntegerRuntimeExceptionDao;
-    }
-
-    public RuntimeExceptionDao<Vehiculo, Integer> getVehiculoIntegerRuntimeExceptionDao(){
-        if (vehiculoIntegerRuntimeExceptionDao == null) {
-            vehiculoIntegerRuntimeExceptionDao = getRuntimeExceptionDao(Vehiculo.class);
-        }
-        return vehiculoIntegerRuntimeExceptionDao;
     }
 
     @Override

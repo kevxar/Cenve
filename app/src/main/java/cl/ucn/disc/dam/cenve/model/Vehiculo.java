@@ -15,13 +15,13 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable
-@Builder
 public class Vehiculo {
 
     /**
      * Esquema de la base de datos para Vehiculo
      */
-    public static final String PATENTE = "_patente";
+    public static final String ID = "vehiculo_id";
+    public static final String PATENTE = "patente";
     public static final String MARCA = "marca";
     public static final String COLOR = "color";
     public static final String MODELO = "modelo";
@@ -30,13 +30,36 @@ public class Vehiculo {
     public static final String CODIGO_ESTACIONAMIENTO = "codigo_estacionamiento";
     public static final String PERSONA = "persona";
 
+    public Vehiculo() {
+
+    }
+
+    public Vehiculo(String patente, String marca, String color, String modelo, String anio,
+                    String descripcion, int codigoEstacionamiento, Persona persona) {
+        this.patente = patente;
+        this.marca = marca;
+        this.color = color;
+        this.modelo = modelo;
+        this.anio = anio;
+        this.descripcion = descripcion;
+        this.codigoEstacionamiento = codigoEstacionamiento;
+        this.persona = persona;
+    }
+
+    /**
+     * id de cada Vehiculo
+     */
+    @Setter
+    @Getter
+    @DatabaseField(generatedId = true, columnName = ID)
+    private int id;
 
     /**
      * patente del Vehiculo
      */
     @Setter
     @Getter
-    @DatabaseField(generatedId = true, columnName = PATENTE)
+    @DatabaseField(columnName = PATENTE)
     private String patente;
 
     /**

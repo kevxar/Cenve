@@ -34,42 +34,10 @@ public class MainActivity extends ListActivity {
     /**
      * Adapter de {@Link cl.ucn.disc.dam.cenve.model.Registro}
      */
-    private BaseAdapter registerAdapter;
-
-
-
-    private  DBHelper helper;
-    private Dao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        helper = OpenHelperManager.getHelper(this, DBHelper.class);
-
-        try {
-            dao = helper.getPersonaDao();
-            RuntimeExceptionDao<Persona, Integer> personaDao = helper.getPersonaIntegerRuntimeExceptionDao();
-            /**Persona persona = new Persona("","","",0,0,
-                    "","",""
-            );
-            persona.setRut("14001215-8");
-            persona.setNombre("Jeanson");
-            persona.setCorreo("jean@gmail.com");
-            dao.create(persona);**/
-
-            personaDao.create(new Persona("18","jean","email",123321,
-                    1233,"dsa","dsd","dsa"));
-            personaDao.create(new Persona("19","wilson","email",123321,
-                    1233,"dsa","dsd","dsa"));
-
-            List<Persona> personas = personaDao.queryForAll();
-
-        } catch (SQLException e) {
-            Log.e(TAG, "Error creando persona");
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
