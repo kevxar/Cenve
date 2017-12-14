@@ -28,7 +28,7 @@ public class RegisterAdapter extends BaseAdapter{
     /**
      * Listado de registros
      */
-    private final List<Registro> registros = new ArrayList<>();
+    private List<Registro> registros = new ArrayList<>();
 
     /**
      * Context
@@ -40,7 +40,6 @@ public class RegisterAdapter extends BaseAdapter{
      */
     public RegisterAdapter(final Context context) {
         this.context = context;
-
     }
 
     /**
@@ -166,5 +165,6 @@ public class RegisterAdapter extends BaseAdapter{
         }
 
     }
+
 
 }

@@ -1,31 +1,16 @@
 package cl.ucn.disc.dam.cenve.activities;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.app.ListActivity;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.widget.BaseAdapter;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.RuntimeExceptionDao;
+import java.util.ArrayList;
 
-import java.util.List;
-
-import cl.ucn.disc.dam.cenve.R;
 import cl.ucn.disc.dam.cenve.adapters.RegisterAdapter;
-import cl.ucn.disc.dam.cenve.model.DBHelper;
-import cl.ucn.disc.dam.cenve.model.Persona;
-
-import static android.content.ContentValues.TAG;
-
+import cl.ucn.disc.dam.cenve.model.Registro;
 import cl.ucn.disc.dam.cenve.tasks.GetRegisterTask;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +25,7 @@ public class MainActivity extends ListActivity implements GetRegisterTask.TaskLi
     /**
      * Adapter de {@Link cl.ucn.disc.dam.cenve.model.Registro}
      */
-    private BaseAdapter registerAdapter;
+    private BaseAdapter baseAdapter;
     private GetRegisterTask getRegisterTask;
 
     @Override
@@ -61,14 +46,13 @@ public class MainActivity extends ListActivity implements GetRegisterTask.TaskLi
         this.getListView().setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
         this.getListView().setDividerHeight(5);
 
-        // Adaptador de registros
-        this.registerAdapter = new RegisterAdapter(this);
-        super.setListAdapter(this.registerAdapter);
 
+        this.baseAdapter = new RegisterAdapter(this);
+        super.setListAdapter(this.baseAdapter);
 
         // Si no hay registros en el adaptador (por ende igual en base de datos)
-        if (this.registerAdapter.isEmpty()) {
-            // .. ejecuto la tarea para obtenerlas.
+        if (this.baseAdapter.isEmpty()) {
+            // Ejecuto la tarea para obtenerlas.
             this.runGetRegisterTask();
         }
 
@@ -95,6 +79,6 @@ public class MainActivity extends ListActivity implements GetRegisterTask.TaskLi
         Toast.makeText(this, "Nuevas patentes: " + registros, Toast.LENGTH_LONG).show();
 
         log.debug("Listo");
-        this.registerAdapter.notifyDataSetChanged();
+        this.baseAdapter.notifyDataSetChanged();
     }
 }
