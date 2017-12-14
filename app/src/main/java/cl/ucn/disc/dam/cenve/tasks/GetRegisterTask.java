@@ -58,31 +58,7 @@ public class GetRegisterTask  extends AsyncTask<Void, Void, Integer> {
     @Override
     protected Integer doInBackground(Void... voids) {
 
-
         final List<Registro> registros = getRegistros();
-
-        // guardando
-        if (registros != null && registros.size() != 0) {
-
-            //final ModelAdapter<Registro> modelAdapter = FlowManager.getModelAdapter(Registro.class);
-
-            // Contador de nuevas noticias
-            int saved = 0;
-            for (final Registro registro : registros) {
-
-                // Si el registro ya existe, no es necesario almacenar nada.
-                //if (modelAdapter.exists(registro)) {
-                //    continue;
-                //}
-
-                // Inserto en la base de datos y cuento 1 mas.
-                //modelAdapter.insert(article);
-                saved++;
-
-            }
-            return saved;
-
-        }
 
         return null;
 

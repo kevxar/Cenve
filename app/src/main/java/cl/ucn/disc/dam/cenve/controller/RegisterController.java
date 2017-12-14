@@ -15,6 +15,7 @@ public class RegisterController {
 
     public List<Registro> getRegister() throws IOException {
 
+
         //TODO hacer codigo para obtener los registros
         //codigo para llamar y obtener los registros de la bd
 
