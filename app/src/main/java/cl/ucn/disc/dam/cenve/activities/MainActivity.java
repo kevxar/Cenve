@@ -7,10 +7,23 @@ import android.os.Bundle;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import cl.ucn.disc.dam.cenve.adapters.RegisterAdapter;
+import cl.ucn.disc.dam.cenve.model.DBHelper;
+import cl.ucn.disc.dam.cenve.model.Persona;
+import cl.ucn.disc.dam.cenve.model.Porteria;
 import cl.ucn.disc.dam.cenve.model.Registro;
+import cl.ucn.disc.dam.cenve.model.Tipo;
+import cl.ucn.disc.dam.cenve.model.Vehiculo;
 import cl.ucn.disc.dam.cenve.tasks.GetRegisterTask;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +40,7 @@ public class MainActivity extends ListActivity implements GetRegisterTask.TaskLi
      */
     private BaseAdapter baseAdapter;
     private GetRegisterTask getRegisterTask;
+    private DBHelper dbHelper = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,29 +60,56 @@ public class MainActivity extends ListActivity implements GetRegisterTask.TaskLi
         this.getListView().setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
         this.getListView().setDividerHeight(5);
 
+        //PRUEBAPRUEBAPRUEBA
+        //Crearemos los registros dentro de la base de datos con DAO
+
+            Calendar calendar = Calendar.getInstance();
+            Date fecha =  calendar.getTime();
+
+            Persona persona1 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", Tipo.APOYO.toString(),"Estudiante");
+            Vehiculo vehiculo1 = new Vehiculo("BTWK-38","Peugeot","Azul","GT",2009,"este es un auto",001,persona1);
+            Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
+            try{
+                final Dao<Persona, Integer> personaDao = getHelper().getPersonaDao();
+                final Dao<Vehiculo, Integer> vehiculoDao = getHelper().getVehiculoDao();
+                final Dao<Registro, Integer> registroDao = getHelper().getRegistroDao();
+
+                personaDao.create(persona1);
+                vehiculoDao.create(vehiculo1);
+                registroDao.create(registro1);
+
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+
+
+
+        //PRUEBAPRUEBAPRUEBA
+
 
         this.baseAdapter = new RegisterAdapter(this);
         super.setListAdapter(this.baseAdapter);
 
-        // Si no hay registros en el adaptador (por ende igual en base de datos)
-        if (this.baseAdapter.isEmpty()) {
-            // Ejecuto la tarea para obtenerlas.
-            this.runGetRegisterTask();
-        }
+//        // Si no hay registros en el adaptador (por ende igual en base de datos)
+//        if (this.baseAdapter.isEmpty()) {
+//            // Ejecuto la tarea para obtenerlas.
+//            this.runGetRegisterTask();
+//        }
 
     }
 
-    private void runGetRegisterTask() {
-
-        // Si ya hay una tarea de obtencion de registros corriendo no ejecuto una nueva
-        if (this.getRegisterTask != null) {
-            Toast.makeText(this, "Actualizando la obtencion de patentes", Toast.LENGTH_SHORT).show();
-            return;
+    // This is how, DatabaseHelper can be initialized for future use
+    private DBHelper getHelper() {
+        if (dbHelper == null) {
+            dbHelper = OpenHelperManager.getHelper(this,DBHelper.class);
         }
+        return dbHelper;
+    }
+    private void runGetRegisterTask() {
 
         // Inicio la tarea
         log.debug("Starting GetRegisterTask ..");
-        this.getRegisterTask = new GetRegisterTask(this);
+        this.getRegisterTask = new GetRegisterTask(this,this);
         this.getRegisterTask.execute();
 
     }

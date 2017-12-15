@@ -61,7 +61,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = ID)
+    @DatabaseField(columnName = RUT)
     private String rut;
 
     /**
@@ -69,7 +69,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = ID)
+    @DatabaseField(columnName = NOMBRE)
     private String nombre;
 
     /**
@@ -77,7 +77,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = ID)
+    @DatabaseField(columnName = CORREO)
     private String correo;
 
     /**
@@ -85,7 +85,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = ID)
+    @DatabaseField(columnName = TELEFONO)
     private int telefono;
 
     /**
@@ -93,7 +93,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = ID)
+    @DatabaseField(columnName = NUMERO_ANEXO)
     private int numeroAnexo;
 
     /**
@@ -101,7 +101,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = ID)
+    @DatabaseField(columnName = LOCALIZACION)
     private String localizacion;
 
     /**
@@ -109,7 +109,7 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = ID)
+    @DatabaseField(columnName = TIPO)
     private String tipo;
 
     /**
@@ -117,6 +117,6 @@ public class Persona {
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = ID)
+    @DatabaseField(columnName = CARGO)
     private String cargo;
 }

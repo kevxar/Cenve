@@ -4,19 +4,11 @@ package cl.ucn.disc.dam.cenve.tasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
-import cl.ucn.disc.dam.cenve.activities.MainActivity;
-
-import cl.ucn.disc.dam.cenve.adapters.RegisterAdapter;
+import android.content.Context;
 import cl.ucn.disc.dam.cenve.controller.RegisterController;
-import cl.ucn.disc.dam.cenve.model.DBHelper;
 import cl.ucn.disc.dam.cenve.model.Registro;
-import lombok.NonNull;
 
 /**
  * Representa la tarea de obtener los registros
@@ -31,14 +23,11 @@ public class GetRegisterTask  extends AsyncTask<Void, Void, Integer> {
      *Listener de las tareas a terminar
      */
     private TaskListener taskListener;
+    Context context;
 
-    private DBHelper helper;
-    private Dao dao;
-
-
-
-    public GetRegisterTask(TaskListener taskListener) {
+    public GetRegisterTask(TaskListener taskListener, Context context) {
         this.taskListener = taskListener;
+        this.context = context;
     }
 
     /**
@@ -69,10 +58,8 @@ public class GetRegisterTask  extends AsyncTask<Void, Void, Integer> {
      */
     private List<Registro> getRegistros() {
 
-        //dao = helper.getRegistroDao();
-
         // FIXME: Sera atributo de la clase?
-        final RegisterController registerController = new RegisterController();
+        final RegisterController registerController = new RegisterController(context);
 
         try {
             // Obtengo los registros desde base de datos via controlador

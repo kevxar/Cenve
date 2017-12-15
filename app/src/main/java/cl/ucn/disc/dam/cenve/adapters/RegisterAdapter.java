@@ -8,10 +8,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cl.ucn.disc.dam.cenve.R;
+import cl.ucn.disc.dam.cenve.model.DBHelper;
 import cl.ucn.disc.dam.cenve.model.Registro;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,18 +33,38 @@ public class RegisterAdapter extends BaseAdapter{
     /**
      * Listado de registros
      */
-    private List<Registro> registros = new ArrayList<>();
+    private List<Registro> listaRegistros = new ArrayList<>();
 
     /**
      * Context
      */
     private final Context context;
 
+    private DBHelper dbHelper = null;
+    private Dao<Registro, Integer> registroDao;
+
     /**
      * @param context
      */
     public RegisterAdapter(final Context context) {
         this.context = context;
+
+        try{
+            registroDao =  getHelper().getRegistroDao();
+            listaRegistros = registroDao.queryForAll();
+            log.debug(listaRegistros.toString());
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private DBHelper getHelper() {
+        if (dbHelper == null) {
+            dbHelper = OpenHelperManager.getHelper(context, DBHelper.class);
+        }
+        return dbHelper;
     }
 
     /**
@@ -49,7 +74,7 @@ public class RegisterAdapter extends BaseAdapter{
      */
     @Override
     public int getCount() {
-        return registros.size();
+        return listaRegistros.size();
     }
 
     /**
@@ -59,7 +84,7 @@ public class RegisterAdapter extends BaseAdapter{
      */
     @Override
     public Registro getItem(int posicion) {
-        return registros.get(posicion);
+        return listaRegistros.get(posicion);
     }
 
     /**
@@ -120,30 +145,30 @@ public class RegisterAdapter extends BaseAdapter{
         return view;
     }
 
-    /**
-     * Agrega un listado de registros al {@link List} de {@link Registro}.
-     *
-     * @param registros
-     * @return RegisterAdapter
-     */
-    public void addAll(final List<Registro> registros) {
-
-        boolean changed = false;
-
-        // Agrego los registros
-        if (registros != null) {
-
-            //log.debug("Adding registros: {}", registros.size());
-            changed = this.registros.addAll(registros);
-            //log.debug("Added {} registros.", registros.size());
-        }
-
-        // Si cambio la coleccion, se refresca.
-        if (changed) {
-
-            super.notifyDataSetChanged();
-        }
-    }
+//    /**
+//     * Agrega un listado de registros al {@link List} de {@link Registro}.
+//     *
+//     * @param registros
+//     * @return RegisterAdapter
+//     */
+//    public void addAll(final List<Registro> registros) {
+//
+//        boolean changed = false;
+//
+//        // Agrego los registros
+//        if (registros != null) {
+//
+//            //log.debug("Adding registros: {}", registros.size());
+//            changed = this.registros.addAll(registros);
+//            //log.debug("Added {} registros.", registros.size());
+//        }
+//
+//        // Si cambio la coleccion, se refresca.
+//        if (changed) {
+//
+//            super.notifyDataSetChanged();
+//        }
+//    }
 
     private static class ViewHolder {
 
