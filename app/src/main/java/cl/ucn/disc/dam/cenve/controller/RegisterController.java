@@ -42,24 +42,24 @@ public class RegisterController {
     public List<Registro> getRegister() throws IOException {
         //TODO hacer codigo para crear los registros de prueba
 
-        Calendar calendar = Calendar.getInstance();
-        Date fecha =  calendar.getTime();
-
-        Persona persona1 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", Tipo.APOYO.toString(),"Estudiante");
-        Vehiculo vehiculo1 = new Vehiculo("BTWK-38","Peugeot","Azul","GT",2009,"este es un auto",001,persona1);
-        Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
-        try{
-            final Dao<Persona, Integer> personaDao = getHelper().getPersonaDao();
-            final Dao<Vehiculo, Integer> vehiculoDao = getHelper().getVehiculoDao();
-            final Dao<Registro, Integer> registroDao = getHelper().getRegistroDao();
-
-            personaDao.create(persona1);
-            vehiculoDao.create(vehiculo1);
-            registroDao.create(registro1);
-
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
+//        Calendar calendar = Calendar.getInstance();
+//        Date fecha =  calendar.getTime();
+//
+//        Persona persona1 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", Tipo.APOYO.toString(),"Estudiante");
+//        Vehiculo vehiculo1 = new Vehiculo("BTWK-38","Peugeot","Azul","GT",2009,"este es un auto",001,persona1);
+//        Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
+//        try{
+//            final Dao<Persona, Integer> personaDao = getHelper().getPersonaDao();
+//            final Dao<Vehiculo, Integer> vehiculoDao = getHelper().getVehiculoDao();
+//            final Dao<Registro, Integer> registroDao = getHelper().getRegistroDao();
+//
+//            personaDao.create(persona1);
+//            vehiculoDao.create(vehiculo1);
+//            registroDao.create(registro1);
+//
+//        }catch(SQLException e){
+//            e.printStackTrace();
+//        }
 
 
 

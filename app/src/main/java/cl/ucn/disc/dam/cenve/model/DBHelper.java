@@ -24,15 +24,16 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "cenve.db";
     private static final int DATABASE_VERSION = 1;
 
-    private Dao<Persona, Integer> personaDao;
-    private Dao<Registro, Integer> registroDao;
-    private Dao<Vehiculo, Integer> vehiculoDao;
+    private Dao<Persona, String> personaDao = null;
+    private Dao<Registro, String> registroDao = null;
+    private Dao<Vehiculo, String> vehiculoDao = null;
+
 //    private RuntimeExceptionDao<Persona, Integer> personaIntegerRuntimeExceptionDao = null;
 //    private RuntimeExceptionDao<Registro, Integer> registroIntegerRuntimeExceptionDao = null;
 //    private RuntimeExceptionDao<Vehiculo, Integer> vehiculoIntegerRuntimeExceptionDao = null;
 
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -44,7 +45,8 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Vehiculo.class);
 
         } catch (SQLException e) {
-            Log.e(DBHelper.class.getName(), "No se pudieron crear las tablas");
+            Log.e(DBHelper.class.getName(), "No se pudo crear la tabla", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -62,21 +64,21 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public Dao<Persona, Integer> getPersonaDao() throws SQLException {
+    public Dao<Persona, String> getPersonaDao() throws SQLException {
         if (personaDao == null) {
             personaDao = getDao(Persona.class);
         }
         return personaDao;
     }
 
-    public Dao<Registro, Integer> getRegistroDao() throws SQLException {
+    public Dao<Registro, String> getRegistroDao() throws SQLException {
         if (registroDao == null) {
             registroDao = getDao(Registro.class);
         }
         return registroDao;
     }
 
-    public Dao<Vehiculo, Integer> getVehiculoDao() throws SQLException {
+    public Dao<Vehiculo, String> getVehiculoDao() throws SQLException {
         if (vehiculoDao == null) {
             vehiculoDao = getDao(Vehiculo.class);
         }

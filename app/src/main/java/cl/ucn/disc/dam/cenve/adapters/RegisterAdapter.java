@@ -2,6 +2,7 @@ package cl.ucn.disc.dam.cenve.adapters;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,7 +19,9 @@ import java.util.List;
 
 import cl.ucn.disc.dam.cenve.R;
 import cl.ucn.disc.dam.cenve.model.DBHelper;
+import cl.ucn.disc.dam.cenve.model.Persona;
 import cl.ucn.disc.dam.cenve.model.Registro;
+import cl.ucn.disc.dam.cenve.model.Vehiculo;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -28,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class RegisterAdapter extends BaseAdapter{
+public class RegisterAdapter extends BaseAdapter {
 
     /**
      * Listado de registros
@@ -38,27 +42,37 @@ public class RegisterAdapter extends BaseAdapter{
     /**
      * Context
      */
-    private final Context context;
-
+    Context context;
     private DBHelper dbHelper = null;
-    private Dao<Registro, Integer> registroDao;
+    private Dao<Persona, String> personaDao;
+    private Dao<Vehiculo, String> vehiculoDao;
+    private Dao<Registro, String> registroDao;
 
     /**
      * @param context
      */
-    public RegisterAdapter(final Context context) {
+
+    public RegisterAdapter(Context context) {
         this.context = context;
-
         try{
-            registroDao =  getHelper().getRegistroDao();
-            listaRegistros = registroDao.queryForAll();
-            log.debug(listaRegistros.toString());
+            this.personaDao = getHelper().getPersonaDao();
+            this.vehiculoDao = getHelper().getVehiculoDao();
+            this.registroDao = getHelper().getRegistroDao();
 
-        }catch (SQLException e){
+            QueryBuilder<Persona, String> personaQb = personaDao.queryBuilder();
+            QueryBuilder<Vehiculo, String> vehiculoQb = vehiculoDao.queryBuilder();
+            QueryBuilder<Registro, String> registroQb = registroDao.queryBuilder();
+
+            // join with the order query
+            listaRegistros = registroQb.join(vehiculoQb.join(personaQb)).query();
+
+        }catch(SQLException e){
             e.printStackTrace();
         }
 
     }
+
+
 
     private DBHelper getHelper() {
         if (dbHelper == null) {
@@ -66,6 +80,7 @@ public class RegisterAdapter extends BaseAdapter{
         }
         return dbHelper;
     }
+
 
     /**
      * Cuantos items hay en la lista representados en el adaptador
@@ -85,6 +100,7 @@ public class RegisterAdapter extends BaseAdapter{
     @Override
     public Registro getItem(int posicion) {
         return listaRegistros.get(posicion);
+
     }
 
     /**
@@ -144,31 +160,6 @@ public class RegisterAdapter extends BaseAdapter{
 
         return view;
     }
-
-//    /**
-//     * Agrega un listado de registros al {@link List} de {@link Registro}.
-//     *
-//     * @param registros
-//     * @return RegisterAdapter
-//     */
-//    public void addAll(final List<Registro> registros) {
-//
-//        boolean changed = false;
-//
-//        // Agrego los registros
-//        if (registros != null) {
-//
-//            //log.debug("Adding registros: {}", registros.size());
-//            changed = this.registros.addAll(registros);
-//            //log.debug("Added {} registros.", registros.size());
-//        }
-//
-//        // Si cambio la coleccion, se refresca.
-//        if (changed) {
-//
-//            super.notifyDataSetChanged();
-//        }
-//    }
 
     private static class ViewHolder {
 

@@ -3,50 +3,53 @@
 #
 # --table-start--
 dataClass=cl.ucn.disc.dam.cenve.model.Persona
-tableName=persona
+tableName=Persona
 # --table-fields-start--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=rut
-columnName=persona_id
+columnName=rut
 # --field-end--
 # --field-start--
 fieldName=nombre
-columnName=persona_id
+columnName=nombre
 # --field-end--
 # --field-start--
 fieldName=correo
-columnName=persona_id
+columnName=correo
 # --field-end--
 # --field-start--
 fieldName=telefono
-columnName=persona_id
+columnName=telefono
 # --field-end--
 # --field-start--
 fieldName=numeroAnexo
-columnName=persona_id
+columnName=numeroAnexo
 # --field-end--
 # --field-start--
 fieldName=localizacion
-columnName=persona_id
+columnName=localizacion
 # --field-end--
 # --field-start--
 fieldName=tipo
-columnName=persona_id
+columnName=tipo
 # --field-end--
 # --field-start--
 fieldName=cargo
-columnName=persona_id
+columnName=cargo
 # --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
+
+#################################
 # --table-start--
 dataClass=cl.ucn.disc.dam.cenve.model.Registro
-tableName=registro
+tableName=Registro
 # --table-fields-start--
 # --field-start--
 fieldName=id
@@ -69,9 +72,11 @@ foreign=true
 # --table-fields-end--
 # --table-end--
 #################################
+
+#################################
 # --table-start--
 dataClass=cl.ucn.disc.dam.cenve.model.Vehiculo
-tableName=vehiculo
+tableName=Vehiculo
 # --table-fields-start--
 # --field-start--
 fieldName=id

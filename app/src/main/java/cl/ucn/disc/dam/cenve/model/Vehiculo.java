@@ -14,7 +14,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 
-@DatabaseTable
+@DatabaseTable(tableName = "Vehiculo")
 public class Vehiculo {
 
     /**

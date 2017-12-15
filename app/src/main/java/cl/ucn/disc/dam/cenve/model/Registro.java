@@ -16,7 +16,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 
-@DatabaseTable
+@DatabaseTable(tableName = "Registro")
 public class Registro {
 
     /**
@@ -42,7 +42,7 @@ public class Registro {
      */
     @Getter
     @Setter
-    @DatabaseField(generatedId = true, columnName = ID)
+    @DatabaseField(generatedId = true,canBeNull = false)
     private int id;
 
     /**
@@ -67,6 +67,6 @@ public class Registro {
      */
     @Getter
     @Setter
-    @DatabaseField(foreign = true, columnName = VEHICULO)
+    @DatabaseField(canBeNull =false,foreign = true)
     private Vehiculo vehiculo;
 }

@@ -15,13 +15,13 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author Kevin Araya Reygada
  */
 
-@DatabaseTable
-public class Persona {
+@DatabaseTable(tableName = "Persona")
+public class Persona{
 
     /**
      * Esquema de la base de datos para Persona
      */
-    public static final String ID = "persona_id";
+    public static final String ID = "id";
     public static final String RUT = "rut";
     public static final String NOMBRE = "nombre";
     public static final String CORREO = "correo";
@@ -31,7 +31,80 @@ public class Persona {
     public static final String TIPO = "tipo";
     public static final String CARGO = "cargo";
 
-    public Persona() {
+
+    /**
+     * id de la Persona
+     */
+    @Setter
+    @Getter
+    @DatabaseField(generatedId = true, canBeNull = false)
+    private int id;
+
+    /**
+     * rut de la Persona
+     */
+    @Setter
+    @Getter
+    @DatabaseField(columnName = RUT, canBeNull = false)
+    private String rut;
+
+    /**
+     * nombre de la Persona
+     */
+    @Setter
+    @Getter
+    @DatabaseField(columnName = NOMBRE,canBeNull = false)
+    private String nombre;
+
+    /**
+     * correo de la Persona
+     */
+    @Setter
+    @Getter
+    @DatabaseField(columnName = CORREO, canBeNull = true)
+    private String correo;
+
+    /**
+     * telefono de la Persona
+     */
+    @Setter
+    @Getter
+    @DatabaseField(columnName = TELEFONO, canBeNull = false)
+    private int telefono;
+
+    /**
+     * numero de anexo de la Persona
+     */
+    @Setter
+    @Getter
+    @DatabaseField(columnName = NUMERO_ANEXO,canBeNull = true)
+    private int numeroAnexo;
+
+    /**
+     * localizacion de la Persona (unidad y oficina)
+     */
+    @Setter
+    @Getter
+    @DatabaseField(columnName = LOCALIZACION,canBeNull = true)
+    private String localizacion;
+
+    /**
+     * tipo de la Persona (academico, funcionario, apoyo, externo)
+     */
+    @Setter
+    @Getter
+    @DatabaseField(columnName = TIPO,canBeNull = true)
+    private String tipo;
+
+    /**
+     * cargo de la Persona (director, rector, secretaria, estudiante, etc)
+     */
+    @Setter
+    @Getter
+    @DatabaseField(columnName = CARGO, canBeNull = true)
+    private String cargo;
+
+    public Persona(){
 
     }
 
@@ -47,76 +120,4 @@ public class Persona {
         this.tipo = tipo;
         this.cargo = cargo;
     }
-
-    /**
-     * id de la Persona
-     */
-    @Setter
-    @Getter
-    @DatabaseField(generatedId = true)
-    private int id;
-
-    /**
-     * rut de la Persona
-     */
-    @Setter
-    @Getter
-    @DatabaseField(columnName = RUT)
-    private String rut;
-
-    /**
-     * nombre de la Persona
-     */
-    @Setter
-    @Getter
-    @DatabaseField(columnName = NOMBRE)
-    private String nombre;
-
-    /**
-     * correo de la Persona
-     */
-    @Setter
-    @Getter
-    @DatabaseField(columnName = CORREO)
-    private String correo;
-
-    /**
-     * telefono de la Persona
-     */
-    @Setter
-    @Getter
-    @DatabaseField(columnName = TELEFONO)
-    private int telefono;
-
-    /**
-     * numero de anexo de la Persona
-     */
-    @Setter
-    @Getter
-    @DatabaseField(columnName = NUMERO_ANEXO)
-    private int numeroAnexo;
-
-    /**
-     * localizacion de la Persona (unidad y oficina)
-     */
-    @Setter
-    @Getter
-    @DatabaseField(columnName = LOCALIZACION)
-    private String localizacion;
-
-    /**
-     * tipo de la Persona (academico, funcionario, apoyo, externo)
-     */
-    @Setter
-    @Getter
-    @DatabaseField(columnName = TIPO)
-    private String tipo;
-
-    /**
-     * cargo de la Persona (director, rector, secretaria, estudiante, etc)
-     */
-    @Setter
-    @Getter
-    @DatabaseField(columnName = CARGO)
-    private String cargo;
 }

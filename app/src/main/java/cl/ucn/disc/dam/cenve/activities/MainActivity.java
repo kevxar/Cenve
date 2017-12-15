@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import cl.ucn.disc.dam.cenve.R;
 import cl.ucn.disc.dam.cenve.adapters.RegisterAdapter;
 import cl.ucn.disc.dam.cenve.model.DBHelper;
 import cl.ucn.disc.dam.cenve.model.Persona;
@@ -33,19 +35,20 @@ import lombok.extern.slf4j.Slf4j;
  * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 @Slf4j
-public class MainActivity extends ListActivity implements GetRegisterTask.TaskListener{
+public class MainActivity extends ListActivity{
 
     /**
      * Adapter de {@Link cl.ucn.disc.dam.cenve.model.Registro}
      */
     private BaseAdapter baseAdapter;
     private GetRegisterTask getRegisterTask;
-    private DBHelper dbHelper = null;
+    private DBHelper dbHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        dbHelper = new DBHelper(this);
         // Mostrar barrita
         final ActionBar actionBar = super.getActionBar();
         if (actionBar != null) {
@@ -66,26 +69,21 @@ public class MainActivity extends ListActivity implements GetRegisterTask.TaskLi
             Calendar calendar = Calendar.getInstance();
             Date fecha =  calendar.getTime();
 
-            Persona persona1 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", Tipo.APOYO.toString(),"Estudiante");
+            Persona persona1 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", "APOYO","Estudiante");
             Vehiculo vehiculo1 = new Vehiculo("BTWK-38","Peugeot","Azul","GT",2009,"este es un auto",001,persona1);
             Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
             try{
-                final Dao<Persona, Integer> personaDao = getHelper().getPersonaDao();
-                final Dao<Vehiculo, Integer> vehiculoDao = getHelper().getVehiculoDao();
-                final Dao<Registro, Integer> registroDao = getHelper().getRegistroDao();
-
+                final Dao<Persona, String> personaDao = getHelper().getPersonaDao();
                 personaDao.create(persona1);
+                final Dao<Vehiculo, String> vehiculoDao = getHelper().getVehiculoDao();
                 vehiculoDao.create(vehiculo1);
+                final Dao<Registro, String> registroDao = getHelper().getRegistroDao();
                 registroDao.create(registro1);
 
             }catch(SQLException e){
                 e.printStackTrace();
             }
-
-
-
         //PRUEBAPRUEBAPRUEBA
-
 
         this.baseAdapter = new RegisterAdapter(this);
         super.setListAdapter(this.baseAdapter);
@@ -105,21 +103,21 @@ public class MainActivity extends ListActivity implements GetRegisterTask.TaskLi
         }
         return dbHelper;
     }
-    private void runGetRegisterTask() {
-
-        // Inicio la tarea
-        log.debug("Starting GetRegisterTask ..");
-        this.getRegisterTask = new GetRegisterTask(this,this);
-        this.getRegisterTask.execute();
-
-    }
 
     @Override
-    public void taskFinished(Integer registros) {
-        // Mostrar mensaje
-        Toast.makeText(this, "Nuevas patentes: " + registros, Toast.LENGTH_LONG).show();
-
-        log.debug("Listo");
-        this.baseAdapter.notifyDataSetChanged();
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dbHelper != null) {
+            OpenHelperManager.releaseHelper();
+            dbHelper= null;
+        }
     }
+//    private void runGetRegisterTask() {
+//
+//        // Inicio la tarea
+//        log.debug("Starting GetRegisterTask ..");
+//        this.getRegisterTask = new GetRegisterTask(this,this);
+//        this.getRegisterTask.execute();
+//
+//    }
 }
