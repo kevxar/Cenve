@@ -34,8 +34,8 @@ public class Vehiculo {
 
     }
 
-    public Vehiculo(String patente, String marca, String color, String modelo, int anio,
-                    String descripcion, int codigoEstacionamiento, Persona persona) {
+    public Vehiculo(String patente, String marca, String color, String modelo, String anio,
+                    String descripcion, String codigoEstacionamiento, Persona persona) {
         this.patente = patente;
         this.marca = marca;
         this.color = color;
@@ -92,7 +92,7 @@ public class Vehiculo {
     @Setter
     @Getter
     @DatabaseField(columnName = ANIO)
-    private int anio;
+    private String anio;
 
     /**
      * descripcion del responsable del Vehiculo
@@ -108,7 +108,7 @@ public class Vehiculo {
     @Setter
     @Getter
     @DatabaseField(columnName = CODIGO_ESTACIONAMIENTO)
-    private int codigoEstacionamiento;
+    private String codigoEstacionamiento;
 
     /**
      * dueño o responsable del Vehiculo

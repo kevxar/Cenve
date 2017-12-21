@@ -6,41 +6,66 @@
     android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/ra_patente"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Patente"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/ra_duenyo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dueño de automovil" />
+        <TextView
+            android:id="@+id/ra_patente"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="Patente"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/ra_marca"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Marca automovil" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/ra_modelo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="modelo" />
+            <TextView
+                android:id="@+id/ra_duenyo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Duenio de automovil" />
 
-    <TextView
-        android:id="@+id/ra_anio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="año" />
+            <TextView
+                android:id="@+id/ra_marca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Marca automovil" />
 
-    <TextView
-        android:id="@+id/ra_tipo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tipo" />
+            <TextView
+                android:id="@+id/ra_modelo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="modelo" />
+
+            <TextView
+                android:id="@+id/ra_anio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="año" />
+
+            <TextView
+                android:id="@+id/ra_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tipo" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
