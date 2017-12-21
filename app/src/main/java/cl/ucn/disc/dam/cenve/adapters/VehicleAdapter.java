@@ -1,43 +1,34 @@
 package cl.ucn.disc.dam.cenve.adapters;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Parcelable;
-import android.sax.StartElementListener;
-import android.support.v4.content.res.ResourcesCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.raizlabs.android.dbflow.StringUtils;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import cl.ucn.disc.dam.cenve.R;
-import cl.ucn.disc.dam.cenve.activities.RegisterCarActivity;
 import cl.ucn.disc.dam.cenve.model.DBHelper;
 import cl.ucn.disc.dam.cenve.model.Persona;
 import cl.ucn.disc.dam.cenve.model.Porteria;
 import cl.ucn.disc.dam.cenve.model.Registro;
 import cl.ucn.disc.dam.cenve.model.Vehiculo;
 import lombok.extern.slf4j.Slf4j;
-
-import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -47,12 +38,12 @@ import static android.app.Activity.RESULT_OK;
  */
 
 @Slf4j
-public class RegisterAdapter extends BaseAdapter {
+public class VehicleAdapter extends BaseAdapter {
 
     /**
-     * Listado de registros
+     * Listado de vehiculos
      */
-    private List<Registro> listaRegistros = new ArrayList<>();
+    private List<Vehiculo> listaVehiculos = new ArrayList<>();
 
 
     /**
@@ -65,7 +56,7 @@ public class RegisterAdapter extends BaseAdapter {
     private Dao<Registro, String> registroDao;
 
 
-    public RegisterAdapter( Context context) {
+    public VehicleAdapter(Context context) {
         this.context = context;
         try{
             this.personaDao = getHelper().getPersonaDao();
@@ -77,27 +68,24 @@ public class RegisterAdapter extends BaseAdapter {
             QueryBuilder<Registro, String> registroQb = registroDao.queryBuilder();
 
             // join with the order query
-            //listaRegistros = registroQb.query();
+            //listaVehiculos = registroQb.query();
 
             //PRUEBA
             Calendar calendar = Calendar.getInstance();
             Date fecha =  calendar.getTime();
             Persona persona1 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", "APOYO","Estudiante");
             Vehiculo vehiculo1 = new Vehiculo("BTWK-38","Peugeot","Azul","GT","2009","este es un auto","001",persona1);
+            Vehiculo vehiculo2 = new Vehiculo("BKJJ-32","Tucson","Blanco","Algo","2010","este es un auto","002",persona1);
             Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
 
-            listaRegistros.add(registro1);
+            listaVehiculos.add(vehiculo1);
+            listaVehiculos.add(vehiculo2);
             //PRUEBA
 
         }catch(SQLException e){
             e.printStackTrace();
         }
-
-
-
     }
-
-
 
     private DBHelper getHelper() {
         if (dbHelper == null) {
@@ -114,7 +102,7 @@ public class RegisterAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return listaRegistros.size();
+        return listaVehiculos.size();
     }
 
     /**
@@ -123,8 +111,8 @@ public class RegisterAdapter extends BaseAdapter {
      * @return La informacion en la posicion especificada.
      */
     @Override
-    public Registro getItem(int posicion) {
-        return listaRegistros.get(posicion);
+    public Vehiculo getItem(int posicion) {
+        return listaVehiculos.get(posicion);
 
     }
 
@@ -173,27 +161,18 @@ public class RegisterAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        final Registro registro = this.getItem(position);
-        if (registro != null) {
+        final Vehiculo vehiculo = this.getItem(position);
+        if (vehiculo != null) {
 
-            viewHolder.patente.setText(registro.getVehiculo().getPatente());
-            viewHolder.duenyo.setText(registro.getVehiculo().getPersona().getNombre());
-            viewHolder.marca.setText(registro.getVehiculo().getMarca());
-            viewHolder.modelo.setText(registro.getVehiculo().getModelo());
-            viewHolder.anio.setText(registro.getVehiculo().getAnio());
-            viewHolder.tipo.setText(registro.getVehiculo().getPersona().getTipo());
+            viewHolder.patente.setText(vehiculo.getPatente());
+            viewHolder.duenyo.setText(vehiculo.getPersona().getNombre());
+            viewHolder.marca.setText(vehiculo.getMarca());
+            viewHolder.modelo.setText(vehiculo.getModelo());
+            viewHolder.anio.setText(vehiculo.getAnio());
+            viewHolder.tipo.setText(vehiculo.getPersona().getTipo());
 
             Typeface font = Typeface.createFromAsset(this.context.getAssets(), "font/cargo2.ttf");
             viewHolder.patente.setTypeface(font);
-
-
-            view.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context, RegisterCarActivity.class);
-                    view.getContext().startActivity(i);
-                }
-            });
 
         }
 
@@ -219,8 +198,5 @@ public class RegisterAdapter extends BaseAdapter {
             this.anio = view.findViewById(R.id.ra_anio);
             this.tipo = view.findViewById(R.id.ra_tipo);
         }
-
     }
-
-
 }

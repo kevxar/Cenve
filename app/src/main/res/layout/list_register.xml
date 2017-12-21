@@ -51,18 +51,18 @@
                 android:text="modelo" />
 
             <TextView
-                android:id="@+id/ra_anio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="año" />
-
-            <TextView
                 android:id="@+id/ra_tipo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Tipo" />
+
+            <TextView
+                android:id="@+id/ra_anio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="año" />
 
         </LinearLayout>
 
