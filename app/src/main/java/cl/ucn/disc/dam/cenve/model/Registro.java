@@ -42,7 +42,7 @@ public class Registro {
      */
     @Getter
     @Setter
-    @DatabaseField(generatedId = true,canBeNull = false)
+    @DatabaseField(generatedId = true,canBeNull = false, columnName = ID)
     private int id;
 
     /**
@@ -67,6 +67,6 @@ public class Registro {
      */
     @Getter
     @Setter
-    @DatabaseField(canBeNull =false,foreign = true)
+    @DatabaseField(canBeNull = false, foreign = true,foreignAutoRefresh = true, columnName = VEHICULO)
     private Vehiculo vehiculo;
 }

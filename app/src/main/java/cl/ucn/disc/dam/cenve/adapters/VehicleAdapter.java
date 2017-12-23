@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,10 +77,32 @@ public class VehicleAdapter extends BaseAdapter {
             Persona persona1 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", "APOYO","Estudiante");
             Vehiculo vehiculo1 = new Vehiculo("BTWK-38","Peugeot","Azul","GT","2009","este es un auto","001",persona1);
             Vehiculo vehiculo2 = new Vehiculo("BKJJ-32","Tucson","Blanco","Algo","2010","este es un auto","002",persona1);
+            Vehiculo vehiculo3 = new Vehiculo("BKLE-54","Nose","Amarillo","caca","2410","este es un auto","003",persona1);
             Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
 
-            listaVehiculos.add(vehiculo1);
-            listaVehiculos.add(vehiculo2);
+            //si no existe registros en la base de datos hay que llenarla
+            if (vehiculoDao.queryForAll().size() == 0){
+                vehiculoDao.create(vehiculo1);
+                vehiculoDao.create(vehiculo2);
+                vehiculoDao.create(vehiculo3);
+
+                personaDao.create(persona1);
+
+                registroDao.create(registro1);
+            }
+
+            //listaVehiculos.add(vehiculo1);
+            //listaVehiculos.add(vehiculo2);
+
+
+            listaVehiculos = vehiculoDao.queryForAll();
+
+//            List<Vehiculo> arrayListVehiculo = vehiculoDao.query(vehiculoQb.join(personaQb).prepare());
+            //listaVehiculos = vehiculoDao.query(vehiculoQb.join(personaQb).prepare());
+
+//            for (int i = 0; i < arrayListVehiculo.size(); i++) {
+//                listaVehiculos.add(arrayListVehiculo.get(i));
+//            }
             //PRUEBA
 
         }catch(SQLException e){

@@ -21,7 +21,6 @@ public class Persona{
     /**
      * Esquema de la base de datos para Persona
      */
-    public static final String ID = "id";
     public static final String RUT = "rut";
     public static final String NOMBRE = "nombre";
     public static final String CORREO = "correo";
@@ -31,21 +30,12 @@ public class Persona{
     public static final String TIPO = "tipo";
     public static final String CARGO = "cargo";
 
-
-    /**
-     * id de la Persona
-     */
-    @Setter
-    @Getter
-    @DatabaseField(generatedId = true, canBeNull = false)
-    private int id;
-
     /**
      * rut de la Persona
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = RUT, canBeNull = false)
+    @DatabaseField(columnName = RUT, canBeNull = false, id = true)
     private String rut;
 
     /**

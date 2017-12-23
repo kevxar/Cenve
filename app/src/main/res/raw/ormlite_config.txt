@@ -1,22 +1,20 @@
 #
-# generated on 2017/12/14 06:03:41
+# generated on 2017/12/21 05:40:50
 #
 # --table-start--
 dataClass=cl.ucn.disc.dam.cenve.model.Persona
 tableName=Persona
 # --table-fields-start--
 # --field-start--
-fieldName=id
-columnName=id
-generatedId=true
-# --field-end--
-# --field-start--
 fieldName=rut
 columnName=rut
+canBeNull=false
+id=true
 # --field-end--
 # --field-start--
 fieldName=nombre
 columnName=nombre
+canBeNull=false
 # --field-end--
 # --field-start--
 fieldName=correo
@@ -25,10 +23,11 @@ columnName=correo
 # --field-start--
 fieldName=telefono
 columnName=telefono
+canBeNull=false
 # --field-end--
 # --field-start--
 fieldName=numeroAnexo
-columnName=numeroAnexo
+columnName=numero_Anexo
 # --field-end--
 # --field-start--
 fieldName=localizacion
@@ -45,8 +44,6 @@ columnName=cargo
 # --table-fields-end--
 # --table-end--
 #################################
-
-#################################
 # --table-start--
 dataClass=cl.ucn.disc.dam.cenve.model.Registro
 tableName=Registro
@@ -54,6 +51,7 @@ tableName=Registro
 # --field-start--
 fieldName=id
 columnName=registro_id
+canBeNull=false
 generatedId=true
 # --field-end--
 # --field-start--
@@ -67,25 +65,22 @@ columnName=fechaIngreso
 # --field-start--
 fieldName=vehiculo
 columnName=vehiculo
+canBeNull=false
 foreign=true
+foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --table-fields-end--
 # --table-end--
-#################################
-
 #################################
 # --table-start--
 dataClass=cl.ucn.disc.dam.cenve.model.Vehiculo
 tableName=Vehiculo
 # --table-fields-start--
 # --field-start--
-fieldName=id
-columnName=vehiculo_id
-generatedId=true
-# --field-end--
-# --field-start--
 fieldName=patente
 columnName=patente
+id=true
 # --field-end--
 # --field-start--
 fieldName=marca
@@ -115,6 +110,8 @@ columnName=codigo_estacionamiento
 fieldName=persona
 columnName=persona
 foreign=true
+foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --table-fields-end--
 # --table-end--

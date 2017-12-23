@@ -20,7 +20,6 @@ public class Vehiculo {
     /**
      * Esquema de la base de datos para Vehiculo
      */
-    public static final String ID = "vehiculo_id";
     public static final String PATENTE = "patente";
     public static final String MARCA = "marca";
     public static final String COLOR = "color";
@@ -47,19 +46,11 @@ public class Vehiculo {
     }
 
     /**
-     * id de cada Vehiculo
-     */
-    @Setter
-    @Getter
-    @DatabaseField(generatedId = true, columnName = ID)
-    private int id;
-
-    /**
      * patente del Vehiculo
      */
     @Setter
     @Getter
-    @DatabaseField(columnName = PATENTE)
+    @DatabaseField(columnName = PATENTE, id = true)
     private String patente;
 
     /**
@@ -115,7 +106,7 @@ public class Vehiculo {
      */
     @Setter
     @Getter
-    @DatabaseField(foreign = true, columnName = PERSONA)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = PERSONA)
     private Persona persona;
 
 }
