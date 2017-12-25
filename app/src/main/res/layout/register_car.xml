@@ -34,13 +34,6 @@
                 android:text="modelo" />
 
             <TextView
-                android:id="@+id/rc_tipo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Tipo" />
-
-            <TextView
                 android:id="@+id/rc_marca"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

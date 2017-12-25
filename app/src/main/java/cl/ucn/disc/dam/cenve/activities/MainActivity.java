@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -19,6 +20,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import cl.ucn.disc.dam.cenve.R;
 import cl.ucn.disc.dam.cenve.adapters.VehicleAdapter;
 import cl.ucn.disc.dam.cenve.model.DBHelper;
+import cl.ucn.disc.dam.cenve.model.Vehiculo;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -27,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 @Slf4j
-public class MainActivity extends ListActivity{
+public class MainActivity extends ListActivity implements AdapterView.OnItemClickListener{
 
     /**
      * Adapter de {@Link cl.ucn.disc.dam.cenve.model.Registro}
@@ -35,12 +37,13 @@ public class MainActivity extends ListActivity{
     private BaseAdapter baseAdapter;
 //    private GetRegisterTask getRegisterTask;
     private DBHelper dbHelper;
-
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHelper = new DBHelper(this);
+        listView = getListView();
         // Mostrar barrita
         final ActionBar actionBar = super.getActionBar();
         if (actionBar != null) {
@@ -52,8 +55,8 @@ public class MainActivity extends ListActivity{
 
         // Row division
         int[] colors = {0, 0xFF000000 , 0};
-        this.getListView().setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
-        this.getListView().setDividerHeight(1);
+        listView.setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
+        listView.setDividerHeight(1);
 
 //        //PRUEBAPRUEBAPRUEBA
 //        //Crearemos los registros dentro de la base de datos con DAO
@@ -80,49 +83,9 @@ public class MainActivity extends ListActivity{
         this.baseAdapter = new VehicleAdapter( this);
         super.setListAdapter(this.baseAdapter);
 
-        ListView listView = super.getListView();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                // Get the layout inflater
-                LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
-
-                //Creo la vista
-                View alertView = inflater.inflate(R.layout.register_car, null);
-                alertDialogBuilder.setView(alertView);
-                alertDialogBuilder.setCancelable(false);
-                Button ingreso = (Button) view.findViewById(R.id.rc_ingreso);
-                Button salida = (Button) alertView.findViewById(R.id.rc_volver);
-
-                // create alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
-
-                salida.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-
-
-
-
-                // show it
-                alertDialog.show();
-
-            }
-        });
-
-
-
-//        // Si no hay registros en el adaptador (por ende igual en base de datos)
-//        if (this.baseAdapter.isEmpty()) {
-//            // Ejecuto la tarea para obtenerlas.
-//            this.runGetRegisterTask();
-//        }
+        listView.setAdapter(baseAdapter);
+        listView.setOnItemClickListener(this);
 
     }
 
@@ -141,6 +104,74 @@ public class MainActivity extends ListActivity{
             OpenHelperManager.releaseHelper();
             dbHelper= null;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View alertView, int i, long l) {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        // Get the layout inflater
+        LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
+        //Creo la vista
+        alertView = inflater.inflate(R.layout.register_car, null);
+        alertDialogBuilder.setView(alertView);
+        alertDialogBuilder.setCancelable(false);
+
+        Button ingreso = alertView.findViewById(R.id.rc_ingreso);
+        Button salida = alertView.findViewById(R.id.rc_volver);
+
+        TextView patente = alertView.findViewById(R.id.rc_patente);
+        TextView modelo = alertView.findViewById(R.id.rc_modelo);
+        TextView marca = alertView.findViewById(R.id.rc_marca);
+        TextView duenio = alertView.findViewById(R.id.rc_duenio);
+        TextView color = alertView.findViewById(R.id.rc_color);
+        TextView anio = alertView.findViewById(R.id.rc_anio);
+        TextView rut = alertView.findViewById(R.id.rc_rut);
+        TextView nombre = alertView.findViewById(R.id.rc_nombreduenio);
+        TextView correo = alertView.findViewById(R.id.rc_correo);
+        TextView telefono = alertView.findViewById(R.id.rc_telefono);
+        TextView anexo = alertView.findViewById(R.id.rc_anexo);
+        TextView localizacion = alertView.findViewById(R.id.rc_localizacion);
+        TextView tipoDuenio = alertView.findViewById(R.id.rc_tipoduenio);
+
+        Vehiculo auto = (Vehiculo) getListAdapter().getItem(i);
+        patente.setText(auto.getPatente());
+        modelo.setText(auto.getModelo());
+        marca.setText(auto.getMarca());
+        duenio.setText(auto.getPersona().getNombre());
+        color.setText(auto.getColor());
+        anio.setText(auto.getAnio());
+        rut.setText(auto.getPersona().getRut());
+        nombre.setText(auto.getPersona().getNombre());
+        correo.setText(auto.getPersona().getCorreo());
+        telefono.setText(String.valueOf(auto.getPersona().getTelefono()));
+        anexo.setText(String.valueOf(auto.getPersona().getNumeroAnexo()));
+        localizacion.setText(auto.getPersona().getLocalizacion());
+        tipoDuenio.setText(auto.getPersona().getTipo());
+
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+
+
+        salida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        ingreso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        // show it
+        alertDialog.show();
     }
 //    private void runGetRegisterTask() {
 //
