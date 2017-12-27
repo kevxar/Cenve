@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 @Slf4j
-public class MainActivity extends ListActivity implements AdapterView.OnItemClickListener{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     /**
      * Adapter de {@Link cl.ucn.disc.dam.cenve.model.Registro}
@@ -50,8 +51,15 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         dbHelper = new DBHelper(this);
-        listView = getListView();
+
+        listView = (ListView) findViewById(R.id.listView);
+        this.baseAdapter = new VehicleAdapter( this);
+        listView.setAdapter(baseAdapter);
+        listView.setOnItemClickListener(this);
+
+
         // Mostrar barrita
         final ActionBar actionBar = super.getActionBar();
         if (actionBar != null) {
@@ -88,12 +96,11 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemClic
 //            }
 //        //PRUEBAPRUEBAPRUEBA
 
-        this.baseAdapter = new VehicleAdapter( this);
-        super.setListAdapter(this.baseAdapter);
 
 
-        listView.setAdapter(baseAdapter);
-        listView.setOnItemClickListener(this);
+
+
+
 
     }
 
@@ -142,7 +149,7 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemClic
         TextView localizacion = alertView.findViewById(R.id.rc_localizacion);
         TextView tipoDuenio = alertView.findViewById(R.id.rc_tipoduenio);
 
-        Vehiculo auto = (Vehiculo) getListAdapter().getItem(i);
+        Vehiculo auto = (Vehiculo) baseAdapter.getItem(i);
         patente.setText(auto.getPatente());
         modelo.setText(auto.getModelo());
         marca.setText(auto.getMarca());
