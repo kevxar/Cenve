@@ -6,17 +6,11 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Kevin Araya Reygada, Jean Cortes Taiba
  */
 @Slf4j
-public class MainActivity extends AppCompatActivity  implements AdapterView.OnItemClickListener {
+public class MainActivity extends ListActivity implements AdapterView.OnItemClickListener{
 
     /**
      * Adapter de {@Link cl.ucn.disc.dam.cenve.model.Registro}
@@ -53,22 +47,11 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
     private DBHelper dbHelper;
     private ListView listView;
 
-    private EditText editText;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
         dbHelper = new DBHelper(this);
-
-        this.getLayoutInflater().inflate(R.layout.activity_main,null);
-        this.listView = (ListView)  findViewById(R.id.listView);
-        this.editText = (EditText) findViewById(R.id.editTextPatente);
-
-        this.baseAdapter = new VehicleAdapter( this);
-        this.listView.setAdapter(this.baseAdapter);
-
-
+        listView = getListView();
         // Mostrar barrita
         final ActionBar actionBar = super.getActionBar();
         if (actionBar != null) {
@@ -105,24 +88,13 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 //            }
 //        //PRUEBAPRUEBAPRUEBA
 
+        this.baseAdapter = new VehicleAdapter( this);
+        super.setListAdapter(this.baseAdapter);
 
+
+        listView.setAdapter(baseAdapter);
         listView.setOnItemClickListener(this);
 
-//        this.editText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//            }
-//        });
     }
 
     // This is how, DatabaseHelper can be initialized for future use
@@ -170,7 +142,7 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
         TextView localizacion = alertView.findViewById(R.id.rc_localizacion);
         TextView tipoDuenio = alertView.findViewById(R.id.rc_tipoduenio);
 
-        Vehiculo auto = (Vehiculo) baseAdapter.getItem(i);
+        Vehiculo auto = (Vehiculo) getListAdapter().getItem(i);
         patente.setText(auto.getPatente());
         modelo.setText(auto.getModelo());
         marca.setText(auto.getMarca());
