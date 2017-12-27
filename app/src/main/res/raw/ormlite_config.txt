@@ -1,5 +1,5 @@
 #
-# generated on 2017/12/21 05:40:50
+# generated on 2017/12/27 05:01:45
 #
 # --table-start--
 dataClass=cl.ucn.disc.dam.cenve.model.Persona
@@ -61,6 +61,10 @@ columnName=porteria
 # --field-start--
 fieldName=fechaIngreso
 columnName=fechaIngreso
+# --field-end--
+# --field-start--
+fieldName=fechaSalida
+columnName=fechaSalida
 # --field-end--
 # --field-start--
 fieldName=vehiculo
