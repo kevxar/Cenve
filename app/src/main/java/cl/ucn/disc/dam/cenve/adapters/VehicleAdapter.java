@@ -185,6 +185,7 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
         final View view;
 
         if (convertView == null) {
+
             view = LayoutInflater.from(context).inflate(R.layout.list_register, parent, false);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
