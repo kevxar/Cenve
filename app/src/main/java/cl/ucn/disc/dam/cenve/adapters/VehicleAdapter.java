@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -39,12 +41,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class VehicleAdapter extends BaseAdapter {
+public class VehicleAdapter extends BaseAdapter implements Filterable{
 
     /**
      * Listado de vehiculos
      */
     private List<Vehiculo> listaVehiculos = new ArrayList<>();
+    private List<Vehiculo> listaTemporal;
 
 
     /**
@@ -89,6 +92,7 @@ public class VehicleAdapter extends BaseAdapter {
                 personaDao.create(persona1);
 
                 registroDao.create(registro1);
+
             }
 
             //listaVehiculos.add(vehiculo1);
@@ -96,6 +100,8 @@ public class VehicleAdapter extends BaseAdapter {
 
 
             listaVehiculos = vehiculoDao.queryForAll();
+
+            listaTemporal = listaVehiculos;
 
 //            List<Vehiculo> arrayListVehiculo = vehiculoDao.query(vehiculoQb.join(personaQb).prepare());
             //listaVehiculos = vehiculoDao.query(vehiculoQb.join(personaQb).prepare());
@@ -201,6 +207,42 @@ public class VehicleAdapter extends BaseAdapter {
 
 
         return view;
+    }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                listaTemporal=(ArrayList<Vehiculo>)results.values;
+                notifyDataSetChanged();
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<Vehiculo> FilteredList= new ArrayList<Vehiculo>();
+                if (constraint == null || constraint.length() == 0) {
+                    // No filter implemented we return all the list
+                    results.values = listaVehiculos;
+                    results.count = listaVehiculos.size();
+                }
+                else {
+                    for (int i = 0; i < listaVehiculos.size(); i++) {
+                        Vehiculo data = listaVehiculos.get(i);
+                        if (data.getPatente().toLowerCase().contains(constraint.toString()))  {
+                            FilteredList.add(data);
+                        }
+                    }
+                    results.values = FilteredList;
+                    results.count = FilteredList.size();
+                }
+                return results;
+            }
+        };
+        return filter;
     }
 
     private static class ViewHolder {
