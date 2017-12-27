@@ -4,29 +4,32 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.database.Cursor;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
+
 import cl.ucn.disc.dam.cenve.R;
 import cl.ucn.disc.dam.cenve.adapters.VehicleAdapter;
 import cl.ucn.disc.dam.cenve.model.DBHelper;
+import cl.ucn.disc.dam.cenve.model.Porteria;
+import cl.ucn.disc.dam.cenve.model.Registro;
 import cl.ucn.disc.dam.cenve.model.Vehiculo;
 import lombok.extern.slf4j.Slf4j;
-
 
 /**
  * Actividad principal: se muestra una lista de registros de vehiculos
@@ -43,18 +46,12 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemClic
 //    private GetRegisterTask getRegisterTask;
     private DBHelper dbHelper;
     private ListView listView;
-    private SearchView searchView;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHelper = new DBHelper(this);
         listView = getListView();
-
-
-
         // Mostrar barrita
         final ActionBar actionBar = super.getActionBar();
         if (actionBar != null) {
@@ -98,27 +95,7 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemClic
         listView.setAdapter(baseAdapter);
         listView.setOnItemClickListener(this);
 
-
-
-
-//        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-//
-//            @Override
-//            public boolean onSuggestionSelect(int position) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onSuggestionClick(int position) {
-//                Cursor cursor= searchView.getSuggestionsAdapter().getCursor();
-//                cursor.moveToPosition(position);
-//                String suggestion =cursor.getString(2);//2 is the index of col containing suggestion name.
-//                searchView.setQuery(suggestion,true);//setting suggestion
-//                return true;
-//            }
-//        });
     }
-
 
     // This is how, DatabaseHelper can be initialized for future use
     private DBHelper getHelper() {
@@ -144,7 +121,7 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemClic
         // Get the layout inflater
         LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
         //Creo la vista
-        alertView = inflater.inflate(R .layout.register_car, null);
+        alertView = inflater.inflate(R.layout.register_car, null);
         alertDialogBuilder.setView(alertView);
         alertDialogBuilder.setCancelable(false);
 
@@ -197,6 +174,37 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemClic
             @Override
             public void onClick(View view) {
 
+                //Hacer un registro en la Base de Datos
+                try{
+                    Dao<Registro, String> registroDao;
+                    registroDao = getHelper().getRegistroDao();
+                    QueryBuilder<Registro, String> registroQb = registroDao.queryBuilder();
+
+                    Calendar calendar = Calendar.getInstance();
+                    Date fecha =  calendar.getTime();
+
+                    //Crear Registro a ingresar
+                    Registro reg = new Registro(Porteria.NORTE.toString(), fecha, auto);
+
+                    //Crear registro en la Base de Datos
+                    registroDao.create(reg);
+                    registroQb.setCountOf(true);
+
+                    Toast toast1 =
+                            Toast.makeText(getApplicationContext(),
+                                    "Registros en BD: " +registroDao.countOf(registroQb.where()
+                                            .eq(Registro.PORTERIA, Porteria.NORTE.toString())
+                                            .and()
+                                            .eq(Registro.VEHICULO, auto)
+                                            .prepare())
+                                    , Toast.LENGTH_SHORT);
+                    toast1.show();
+
+                }catch(SQLException e){
+                    e.printStackTrace();
+                }
+
+
             }
         });
 
@@ -204,6 +212,12 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemClic
         // show it
         alertDialog.show();
     }
-
-
+//    private void runGetRegisterTask() {
+//
+//        // Inicio la tarea
+//        log.debug("Starting GetRegisterTask ..");
+//        this.getRegisterTask = new GetRegisterTask(this,this);
+//        this.getRegisterTask.execute();
+//
+//    }
 }

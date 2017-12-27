@@ -30,6 +30,7 @@ import cl.ucn.disc.dam.cenve.model.DBHelper;
 import cl.ucn.disc.dam.cenve.model.Persona;
 import cl.ucn.disc.dam.cenve.model.Porteria;
 import cl.ucn.disc.dam.cenve.model.Registro;
+import cl.ucn.disc.dam.cenve.model.Tipo;
 import cl.ucn.disc.dam.cenve.model.Vehiculo;
 import lombok.extern.slf4j.Slf4j;
 
@@ -77,11 +78,13 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
             //PRUEBA
             Calendar calendar = Calendar.getInstance();
             Date fecha =  calendar.getTime();
-            Persona persona1 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", "APOYO","Estudiante");
+            Persona persona1 = new Persona("18311347k","Jean Cortes","jeancortes.t@gmail.com",57634738,1010,"cualquier lugar", Tipo.EXTERNO.toString(),"Estudiante1");
+            Persona persona2 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", "APOYO","Estudiante");
             Vehiculo vehiculo1 = new Vehiculo("BTWK-38","Peugeot","Azul","GT","2009","este es un auto","001",persona1);
-            Vehiculo vehiculo2 = new Vehiculo("BKJJ-32","Tucson","Blanco","Algo","2010","este es un auto","002",persona1);
+            Vehiculo vehiculo2 = new Vehiculo("BKJJ-32","Tucson","Blanco","Algo","2010","este es un auto","002",persona2);
             Vehiculo vehiculo3 = new Vehiculo("BKLE-54","Nose","Amarillo","caca","2410","este es un auto","003",persona1);
             Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
+            Registro registro2 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo2);
 
             //si no existe registros en la base de datos hay que llenarla
             if (vehiculoDao.queryForAll().size() == 0){
@@ -90,6 +93,7 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
                 vehiculoDao.create(vehiculo3);
 
                 personaDao.create(persona1);
+                personaDao.create(persona2);
 
                 registroDao.create(registro1);
 
@@ -99,12 +103,12 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
             //listaVehiculos.add(vehiculo2);
 
 
-            listaVehiculos = vehiculoDao.queryForAll();
+            //listaVehiculos = vehiculoDao.queryForAll();
 
             listaTemporal = listaVehiculos;
 
 //            List<Vehiculo> arrayListVehiculo = vehiculoDao.query(vehiculoQb.join(personaQb).prepare());
-            //listaVehiculos = vehiculoDao.query(vehiculoQb.join(personaQb).prepare());
+            listaVehiculos = vehiculoDao.query(vehiculoQb.join(personaQb).prepare());
 
 //            for (int i = 0; i < arrayListVehiculo.size(); i++) {
 //                listaVehiculos.add(arrayListVehiculo.get(i));
