@@ -16,10 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
 
 import cl.ucn.disc.dam.cenve.R;
 import cl.ucn.disc.dam.cenve.adapters.VehicleAdapter;
 import cl.ucn.disc.dam.cenve.model.DBHelper;
+import cl.ucn.disc.dam.cenve.model.Porteria;
+import cl.ucn.disc.dam.cenve.model.Registro;
 import cl.ucn.disc.dam.cenve.model.Vehiculo;
 import lombok.extern.slf4j.Slf4j;
 
@@ -165,6 +173,37 @@ public class MainActivity extends ListActivity implements AdapterView.OnItemClic
         ingreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Hacer un registro en la Base de Datos
+                try{
+                    Dao<Registro, String> registroDao;
+                    registroDao = getHelper().getRegistroDao();
+                    QueryBuilder<Registro, String> registroQb = registroDao.queryBuilder();
+
+                    Calendar calendar = Calendar.getInstance();
+                    Date fecha =  calendar.getTime();
+
+                    //Crear Registro a ingresar
+                    Registro reg = new Registro(Porteria.NORTE.toString(), fecha, auto);
+
+                    //Crear registro en la Base de Datos
+                    registroDao.create(reg);
+                    registroQb.setCountOf(true);
+
+                    Toast toast1 =
+                            Toast.makeText(getApplicationContext(),
+                                    "Registros en BD: " +registroDao.countOf(registroQb.where()
+                                            .eq(Registro.PORTERIA, Porteria.NORTE.toString())
+                                            .and()
+                                            .eq(Registro.VEHICULO, auto)
+                                            .prepare())
+                                    , Toast.LENGTH_SHORT);
+                    toast1.show();
+
+                }catch(SQLException e){
+                    e.printStackTrace();
+                }
+
 
             }
         });
