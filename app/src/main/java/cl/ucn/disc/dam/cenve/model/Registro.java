@@ -25,17 +25,15 @@ public class Registro {
     public static final String ID = "registro_id";
     public static final String PORTERIA = "porteria";
     public static final String FECHA_INGRESO = "fechaIngreso";
-    public static final String FECHA_SALIDA = "fechaSalida";
     public static final String VEHICULO = "vehiculo";
 
     public Registro() {
 
     }
 
-    public Registro(String porteria, Date fechaIngreso, Date fechaSalida, Vehiculo vehiculo) {
+    public Registro(String porteria, Date fechaIngreso, Vehiculo vehiculo) {
         this.porteria = porteria;
         this.fechaIngreso = fechaIngreso;
-        this.fechaIngreso = fechaSalida;
         this.vehiculo = vehiculo;
     }
 
@@ -63,14 +61,6 @@ public class Registro {
     @Setter
     @DatabaseField(columnName = FECHA_INGRESO)
     private Date fechaIngreso;
-
-    /**
-     * Fecha de salida en la cual el auto sale de los estacionamientos
-     */
-    @Getter
-    @Setter
-    @DatabaseField(columnName = FECHA_SALIDA, canBeNull = true)
-    private Date fechaSalida;
 
     /**
      * Vehiculo que se esta registrando por su ingreso
