@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * Adapter de {@Link cl.ucn.disc.dam.cenve.model.Registro}
      */
     private BaseAdapter baseAdapter;
-//    private GetRegisterTask getRegisterTask;
     private DBHelper dbHelper;
     private ListView listView;
 
@@ -73,34 +73,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         int[] colors = {0, 0xFF000000 , 0};
         listView.setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
         listView.setDividerHeight(1);
-
-//        //PRUEBAPRUEBAPRUEBA
-//        //Crearemos los registros dentro de la base de datos con DAO
-//
-//            Calendar calendar = Calendar.getInstance();
-//            Date fecha =  calendar.getTime();
-//
-//            Persona persona1 = new Persona("185075958","Kevin Araya","kevxar@gmail.com",84367949,2020,"askdjhas kasjhds", "APOYO","Estudiante");
-//            Vehiculo vehiculo1 = new Vehiculo("BTWK-38","Peugeot","Azul","GT","2009","este es un auto","001",persona1);
-//            Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
-//            try{
-//                final Dao<Persona, String> personaDao = getHelper().getPersonaDao();
-//                personaDao.create(persona1);
-//                final Dao<Vehiculo, String> vehiculoDao = getHelper().getVehiculoDao();
-//                vehiculoDao.create(vehiculo1);
-//                final Dao<Registro, String> registroDao = getHelper().getRegistroDao();
-//                registroDao.create(registro1);
-//
-//            }catch(SQLException e){
-//                e.printStackTrace();
-//            }
-//        //PRUEBAPRUEBAPRUEBA
-
-
-
-
-
-
 
     }
 
@@ -173,6 +145,52 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         salida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                try{
+                    Dao<Registro, String> registroDao;
+                    registroDao = getHelper().getRegistroDao();
+                    QueryBuilder<Registro, String> registroQb = registroDao.queryBuilder();
+                    UpdateBuilder<Registro, String> registroUb = registroDao.updateBuilder();
+                    registroQb.setCountOf(true);
+
+                    //Si la persona está dentro hay que registrar la fecha de salida
+                    if(registroDao.countOf(registroQb.where()
+                            .eq(Registro.PORTERIA, Porteria.NORTE.toString())
+                            .and()
+                            .eq(Registro.VEHICULO, auto.getPatente())
+                            .and()
+                            .isNull(Registro.FECHA_SALIDA)
+                            .prepare()) == 1){
+
+                        //Fecha de Salida
+                        Calendar calendar = Calendar.getInstance();
+                        Date fechaSalida =  calendar.getTime();
+
+                        //Cambiar fecha de Salida en la BAse de Datos
+                        registroUb.updateColumnValue("fechaSalida", fechaSalida);
+                        registroUb.where()
+                                .eq(Registro.PORTERIA, Porteria.NORTE.toString())
+                                .and()
+                                .eq(Registro.VEHICULO, auto.getPatente())
+                                .and()
+                                .isNull(Registro.FECHA_SALIDA);
+                        registroUb.update();
+
+                        Toast toast1 =
+                                Toast.makeText(getApplicationContext(),
+                                        "Salida Exitosa" , Toast.LENGTH_SHORT);
+                        toast1.show();
+                    }else{
+                        //Si no está dentro desplegar mensaje
+                        Toast toast2 =
+                                Toast.makeText(getApplicationContext(),
+                                        "El vehículo no ha ingresado" , Toast.LENGTH_SHORT);
+                        toast2.show();
+
+                    }
+                }catch(SQLException e){
+                    e.printStackTrace();
+                }
                 alertDialog.dismiss();
             }
         });
@@ -186,26 +204,39 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Dao<Registro, String> registroDao;
                     registroDao = getHelper().getRegistroDao();
                     QueryBuilder<Registro, String> registroQb = registroDao.queryBuilder();
-
-                    Calendar calendar = Calendar.getInstance();
-                    Date fecha =  calendar.getTime();
-
-                    //Crear Registro a ingresar
-                    Registro reg = new Registro(Porteria.NORTE.toString(), fecha, auto);
-
-                    //Crear registro en la Base de Datos
-                    registroDao.create(reg);
                     registroQb.setCountOf(true);
 
-                    Toast toast1 =
-                            Toast.makeText(getApplicationContext(),
-                                    "Registros en BD: " +registroDao.countOf(registroQb.where()
-                                            .eq(Registro.PORTERIA, Porteria.NORTE.toString())
-                                            .and()
-                                            .eq(Registro.VEHICULO, auto)
-                                            .prepare())
-                                    , Toast.LENGTH_SHORT);
-                    toast1.show();
+                    //Fecha de ingreso
+                    Calendar calendar = Calendar.getInstance();
+                    Date fechaIngreso =  calendar.getTime();
+
+                    //Crear Registro a ingresar
+                    Registro reg = new Registro(Porteria.NORTE.toString(), fechaIngreso, null, auto);
+
+                    //Si el vehículo no ha ingresado, hacer el registro
+                    if(registroDao.countOf(registroQb.where()
+                            .eq(Registro.PORTERIA, Porteria.NORTE.toString())
+                            .and()
+                            .eq(Registro.VEHICULO, auto.getPatente())
+                            .and()
+                            .isNull(Registro.FECHA_SALIDA)
+                            .prepare()) == 0) {
+
+                        //Crear registro en la Base de Datos
+                        registroDao.create(reg);
+
+                        Toast toast1 =
+                                Toast.makeText(getApplicationContext(),
+                                        "Registro exitoso " , Toast.LENGTH_SHORT);
+                        toast1.show();
+                    }else{
+                        //Si el vehículo ya ha ingresado, desplegar mensaje
+                        Toast toast2 =
+                                Toast.makeText(getApplicationContext(),
+                                        "El vehículo ya se encuentra adentro" , Toast.LENGTH_SHORT);
+                        toast2.show();
+                    }
+                    alertDialog.dismiss();
 
                 }catch(SQLException e){
                     e.printStackTrace();
@@ -219,12 +250,5 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // show it
         alertDialog.show();
     }
-//    private void runGetRegisterTask() {
-//
-//        // Inicio la tarea
-//        log.debug("Starting GetRegisterTask ..");
-//        this.getRegisterTask = new GetRegisterTask(this,this);
-//        this.getRegisterTask.execute();
-//
-//    }
+
 }

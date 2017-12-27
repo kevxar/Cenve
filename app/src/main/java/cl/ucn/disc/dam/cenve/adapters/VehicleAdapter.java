@@ -83,8 +83,8 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
             Vehiculo vehiculo1 = new Vehiculo("BTWK-38","Peugeot","Azul","GT","2009","este es un auto","001",persona1);
             Vehiculo vehiculo2 = new Vehiculo("BKJJ-32","Tucson","Blanco","Algo","2010","este es un auto","002",persona2);
             Vehiculo vehiculo3 = new Vehiculo("BKLE-54","Nose","Amarillo","caca","2410","este es un auto","003",persona1);
-            Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
-            Registro registro2 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo2);
+//            Registro registro1 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo1);
+//            Registro registro2 = new Registro(Porteria.CENTRAL.toString(),fecha,vehiculo2);
 
             //si no existe registros en la base de datos hay que llenarla
             if (vehiculoDao.queryForAll().size() == 0){
@@ -95,7 +95,7 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
                 personaDao.create(persona1);
                 personaDao.create(persona2);
 
-                registroDao.create(registro1);
+//                registroDao.create(registro1);
 
             }
 
