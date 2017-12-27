@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class VehicleAdapter extends BaseAdapter implements Filterable{
+public class VehicleAdapter extends BaseAdapter{
 
     /**
      * Listado de vehiculos
@@ -50,6 +50,7 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
     private List<Vehiculo> listaVehiculos = new ArrayList<>();
     private List<Vehiculo> listaTemporal;
 
+    private Filter filter;
 
     /**
      * Context
@@ -135,7 +136,7 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
      */
     @Override
     public int getCount() {
-        return listaVehiculos.size();
+        return listaTemporal.size();
     }
 
     /**
@@ -145,7 +146,7 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
      */
     @Override
     public Vehiculo getItem(int posicion) {
-        return listaVehiculos.get(posicion);
+        return listaTemporal.get(posicion);
 
     }
 
@@ -194,7 +195,7 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        final Vehiculo vehiculo = this.getItem(position);
+        final Vehiculo vehiculo = listaTemporal.get(position);
         if (vehiculo != null) {
 
             viewHolder.patente.setText(vehiculo.getPatente());
@@ -213,40 +214,22 @@ public class VehicleAdapter extends BaseAdapter implements Filterable{
         return view;
     }
 
-    @Override
-    public Filter getFilter() {
-        Filter filter = new Filter() {
+    public void getFilter(CharSequence constraint) {
 
-            @SuppressWarnings("unchecked")
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                listaTemporal=(ArrayList<Vehiculo>)results.values;
-                notifyDataSetChanged();
-            }
-
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults results = new FilterResults();
-                ArrayList<Vehiculo> FilteredList= new ArrayList<Vehiculo>();
+        listaTemporal.clear();
                 if (constraint == null || constraint.length() == 0) {
                     // No filter implemented we return all the list
-                    results.values = listaVehiculos;
-                    results.count = listaVehiculos.size();
+                    listaTemporal.addAll(listaVehiculos);
                 }
                 else {
                     for (int i = 0; i < listaVehiculos.size(); i++) {
                         Vehiculo data = listaVehiculos.get(i);
-                        if (data.getPatente().toLowerCase().contains(constraint.toString()))  {
-                            FilteredList.add(data);
+                        if (data.getPatente().toLowerCase().contains(constraint.toString().toLowerCase()))  {
+                            listaTemporal.add(data);
                         }
                     }
-                    results.values = FilteredList;
-                    results.count = FilteredList.size();
                 }
-                return results;
-            }
-        };
-        return filter;
+        notifyDataSetChanged();
     }
 
     private static class ViewHolder {

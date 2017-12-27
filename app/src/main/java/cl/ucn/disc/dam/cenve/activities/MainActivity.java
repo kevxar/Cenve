@@ -7,11 +7,14 @@ import android.app.ListActivity;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,8 +48,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * Adapter de {@Link cl.ucn.disc.dam.cenve.model.Registro}
      */
     private BaseAdapter baseAdapter;
+    private VehicleAdapter vehicleAdapter;
     private DBHelper dbHelper;
     private ListView listView;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +60,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dbHelper = new DBHelper(this);
 
         listView = (ListView) findViewById(R.id.listView);
-        this.baseAdapter = new VehicleAdapter( this);
-        listView.setAdapter(baseAdapter);
+        this.vehicleAdapter = new VehicleAdapter(this);
+        //this.baseAdapter = new VehicleAdapter( this);
+        listView.setAdapter(vehicleAdapter);
         listView.setOnItemClickListener(this);
 
+        this.editText = (EditText) findViewById(R.id.editText);
+
+        this.editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editable.toString();
+                vehicleAdapter.getFilter(text);
+            }
+        });
 
         // Mostrar barrita
         final ActionBar actionBar = super.getActionBar();
@@ -73,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         int[] colors = {0, 0xFF000000 , 0};
         listView.setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
         listView.setDividerHeight(1);
+
+
+
 
     }
 
@@ -121,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TextView localizacion = alertView.findViewById(R.id.rc_localizacion);
         TextView tipoDuenio = alertView.findViewById(R.id.rc_tipoduenio);
 
-        Vehiculo auto = (Vehiculo) baseAdapter.getItem(i);
+        Vehiculo auto = (Vehiculo) vehicleAdapter.getItem(i);
         patente.setText(auto.getPatente());
         modelo.setText(auto.getModelo());
         marca.setText(auto.getMarca());
